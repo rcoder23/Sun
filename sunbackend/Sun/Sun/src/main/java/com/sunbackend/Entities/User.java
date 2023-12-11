@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import java.util.List;
 
-
 @Entity
 @Getter
 @Setter
@@ -29,6 +28,8 @@ public class User {
     private String password;
     private String designation;
     private String role;
-    private List<Ticket> userAssignTickets;
+
+
+    private List<Long> userAssignTickets; //id of tickets
 
 }

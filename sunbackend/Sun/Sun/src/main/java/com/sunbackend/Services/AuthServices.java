@@ -6,6 +6,7 @@ import com.sunbackend.Repository.AuthRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +18,9 @@ public class AuthServices {
 
     public boolean save(User user){
         if(authRepo.findByEmail(user.getEmail()) == null){
+            if(user.getUserAssignTickets()==null){
+                user.setUserAssignTickets(new ArrayList<Long>());
+            }
             authRepo.save(user);
             return true;
         }else{

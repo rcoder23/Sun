@@ -22,13 +22,15 @@ public class Ticket {
 
     private String title;
     private String description;
-    private String assignee;
-    private Date creationDate;
+
+
+    private Long assigneeId; //assign id
+    private Date creationDate; //must be set automatically
     private Date dueDate; //can be null
-    private TicketStatus status;
+    private TicketStatus status; //set later
 
     //Additional infos
-    private String comments;
+    private String[] comments;
     private String priority;
     private String categroy; //project in which it belongs
     private String logs;
