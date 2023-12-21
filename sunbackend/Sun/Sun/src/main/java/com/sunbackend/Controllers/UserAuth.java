@@ -19,6 +19,7 @@ public class UserAuth {
 
     @PostMapping("/create")
     public ResponseEntity<String> createUser(@RequestBody User user){
+
         if(authServices.save(user)){
             return ResponseEntity.ok("User Saved Successfully");
         }else {
