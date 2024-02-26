@@ -18,22 +18,21 @@ public class UserAuth {
     private AuthServices authServices;
 
     @PostMapping("/create")
-    public ResponseEntity<String> createUser(@RequestBody User user){
-
-        if(authServices.save(user)){
+    public ResponseEntity<String> createUser(@RequestBody User user) {
+        if (authServices.save(user)) {
             return ResponseEntity.ok("User Saved Successfully");
-        }else {
+        } else {
             return ResponseEntity.badRequest().body("Email is alredy registered..");
         }
     }
 
     @GetMapping("/getuser/{userId}")
-    public ResponseEntity<Optional<User>> getUserById(@PathVariable Long userId){
+    public ResponseEntity<Optional<User>> getUserById(@PathVariable Long userId) {
         return ResponseEntity.ok(authServices.getUserById(userId));
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<User>> getAllUser(){
+    public ResponseEntity<List<User>> getAllUser() {
         return ResponseEntity.ok(authServices.getAllUser());
     }
 

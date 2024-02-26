@@ -19,11 +19,8 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String title;
     private String description;
-
-
     private Long assigneeId; //assign id
     private Date creationDate; //must be set automatically
     private Date dueDate; //can be null

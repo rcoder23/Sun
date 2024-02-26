@@ -1,0 +1,12 @@
+.chartProfile {
+  /* border: 1px solid black; */
+
+  height: 350px;
+  width: 500px;
+}
+
+.Details {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}

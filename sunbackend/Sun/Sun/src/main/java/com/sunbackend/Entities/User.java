@@ -7,18 +7,10 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Entity
 @Getter
 @Setter
+@Entity
 public class User {
-
-    //id
-    //name
-    //email
-    //passowrd
-    //designation
-    //role => (Admin , Develoeper, QA)
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -28,8 +20,5 @@ public class User {
     private String password;
     private String designation;
     private String role;
-
-
     private List<Long> userAssignTickets; //id of tickets
-
 }

@@ -14,4 +14,20 @@ public class TicketAssign {
         this.id=id;
         this.assigneeId=assigneeId;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getAssigneeId() {
+        return assigneeId;
+    }
+
+    public void setAssigneeId(Long assigneeId) {
+        this.assigneeId = assigneeId;
+    }
 }

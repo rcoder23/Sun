@@ -24,7 +24,6 @@ public class TicketServices {
 
     //create new ticket
     public boolean create(Ticket ticket){
-
         //checking assign is exists or not
         if(!authRepo.findById(ticket.getAssigneeId()).isPresent()) {
             return false;
@@ -94,6 +93,7 @@ public class TicketServices {
     public boolean checkStatus(Long id){
         Optional<Ticket> ticket = ticketRepo.findById(id);
         if(ticket.isPresent()){
+            System.out.println(ticket.get().getAssigneeId());
             if(ticket.get().getAssigneeId()!=null) {
                 return true; // assigned to some one
             }
