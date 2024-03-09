@@ -1,11 +1,13 @@
 package com.sunbackend.Helper;
 
 public enum TicketStatus {
-    OPEN("Open"),
-    IN_PROGRESS("In Progress"),
-    RESOLVED("Resolved"),
-    CLOSED("Closed");
 
+    PRIORITY("PRIORITY"),
+    READY("READY"),
+    PROGRESS("PROGRESS"),
+    REVIEW("REVIEW"),
+    TESTING("TESTING"),
+    FINISHED("FINISHED");
     private final String displayName;
 
     TicketStatus(String displayName) {

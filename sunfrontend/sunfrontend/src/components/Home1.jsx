@@ -15,6 +15,7 @@ const TicketBoard = () => {
 
 
   useEffect(() => {
+    toast.success("this is sucess");
     if (isLogin) {
       const id = localStorage.getItem('auth');
       axios.get('http://localhost:8081/api/v1/auth/getuser/' + id)
@@ -37,14 +38,12 @@ const TicketBoard = () => {
           console.error("Error fetching user data:", error);
         });
     } else {
-      toast.error("Please login first");
-
       console.log("login first");
     }
   }, [isLogin]);
 
   const allowDrop = (ev) => {
-
+    { notify }
     ev.preventDefault();
   };
 
@@ -66,9 +65,7 @@ const TicketBoard = () => {
 
     if (!ev.target.id) {
 
-      toast('Cant move invalid location! Put ticket in empty space only', {
-        icon: '⚠',
-      });
+      notify("can't move ticket to invalid place ..");
       return; // If so, do nothing and exit the function
     }
 
@@ -77,8 +74,6 @@ const TicketBoard = () => {
     axios.post('http://localhost:8081/api/v1/ticket/update/' + ticketId + "/" + status)
       .then(response => {
         console.log(response);
-        toast.success('Ticket update Sucessfully')
-
       })
       .catch(error => {
         console.log(error);
@@ -91,24 +86,18 @@ const TicketBoard = () => {
 
     <div>
 
+      <Toaster />
 
-      <p> </p>
-      <Toaster position="top-left"
-        reverseOrder={false}
-      />
+      <p>Drag the tickets into the appropriate column:</p>
+      <Toaster />
 
-      <div id="PRIORITY" className="ticketColumn mt-5" onDrop={drop} onDragOver={allowDrop}>
+      <div id="PRIORITY" className="ticketColumn" onDrop={drop} onDragOver={allowDrop}>
         <h3 className='title'>Priorities</h3>
         {tickets
           .filter(ticket => ticket.status === "PRIORITY")
           .map(ticket => (
             <div className="progess ticket" key={ticket.id} draggable onDragStart={(e) => drag(e, ticket.id)}>
-              <h2>{ticket.title}</h2>
-
-              <h3>Category:{ticket.categroy} </h3>
-
-              <button className=
-                'btn-viewmore'>View More</button>
+              {ticket.title} {ticket.categroy}
             </div>
           ))}
       </div>
@@ -118,12 +107,7 @@ const TicketBoard = () => {
           .filter(ticket => ticket.status === "READY")
           .map(ticket => (
             <div className="ready ticket" key={ticket.id} draggable onDragStart={(e) => drag(e, ticket.id)}>
-              <h2>{ticket.title}</h2>
-
-              <h3>Category:{ticket.categroy} </h3>
-
-              <button className=
-                'btn-viewmore'>View More</button>
+              {ticket.title} {ticket.categroy}
             </div>
           ))}
       </div>
@@ -133,12 +117,7 @@ const TicketBoard = () => {
           .filter(ticket => ticket.status === "PROGRESS")
           .map(ticket => (
             <div className="progess ticket" key={ticket.id} draggable onDragStart={(e) => drag(e, ticket.id)}>
-              <h2>{ticket.title}</h2>
-
-              <h3>Category:{ticket.categroy} </h3>
-
-              <button className=
-                'btn-viewmore'>View More</button>
+              {ticket.title} {ticket.categroy}
             </div>
           ))}
       </div>
@@ -149,12 +128,7 @@ const TicketBoard = () => {
           .filter(ticket => ticket.status === "REVIEW")
           .map(ticket => (
             <div className="review ticket" key={ticket.id} draggable onDragStart={(e) => drag(e, ticket.id)}>
-              <h2>{ticket.title}</h2>
-
-              <h3>Category:{ticket.categroy} </h3>
-
-              <button className=
-                'btn-viewmore'>View More</button>
+              {ticket.title} {ticket.categroy}
             </div>
           ))}
       </div>
@@ -165,12 +139,7 @@ const TicketBoard = () => {
           .filter(ticket => ticket.status === "TESTING")
           .map(ticket => (
             <div className="testing ticket" key={ticket.id} draggable onDragStart={(e) => drag(e, ticket.id)}>
-              <h2>{ticket.title}</h2>
-
-              <h3>Category:{ticket.categroy} </h3>
-
-              <button className=
-                'btn-viewmore'>View More</button>
+              {ticket.title} {ticket.categroy}
             </div>
           ))}
       </div>
@@ -181,12 +150,7 @@ const TicketBoard = () => {
           .filter(ticket => ticket.status === "FINISHED")
           .map(ticket => (
             <div className="done ticket" key={ticket.id} draggable onDragStart={(e) => drag(e, ticket.id)}>
-              <h2>{ticket.title}</h2>
-
-              <h3>Category:{ticket.categroy} </h3>
-
-              <button className=
-                'btn-viewmore'>View More</button>
+              {ticket.title} {ticket.categroy}
             </div>
           ))}
       </div>

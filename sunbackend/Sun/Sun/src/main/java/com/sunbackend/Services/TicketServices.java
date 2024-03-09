@@ -4,6 +4,7 @@ package com.sunbackend.Services;
 import com.sunbackend.Entities.Ticket;
 import com.sunbackend.Entities.User;
 import com.sunbackend.Helper.TicketAssign;
+import com.sunbackend.Helper.TicketStatus;
 import com.sunbackend.Repository.AuthRepo;
 import com.sunbackend.Repository.TicketRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,6 +136,17 @@ public class TicketServices {
             //not assigned to anyone
             ticketRepo.deleteById(id);
             return true;
+        }
+    }
+
+    public Ticket updateTicket(Long id, TicketStatus status) {
+        Optional<Ticket> ticket = ticketRepo.findById(id);
+        if(ticket.isPresent()){
+            ticket.get().setStatus(status);
+             Ticket save = ticketRepo.save(ticket.get());
+            return save;
+        }else{
+            return null;
         }
     }
 }

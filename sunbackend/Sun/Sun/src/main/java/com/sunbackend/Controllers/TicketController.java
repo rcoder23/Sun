@@ -2,6 +2,7 @@ package com.sunbackend.Controllers;
 
 import com.sunbackend.Entities.Ticket;
 import com.sunbackend.Helper.TicketAssign;
+import com.sunbackend.Helper.TicketStatus;
 import com.sunbackend.Services.TicketServices;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/ticket")
+@CrossOrigin("*")
 public class TicketController {
 
     @Autowired
@@ -91,5 +93,17 @@ public class TicketController {
             return ResponseEntity.ok("Can't delete");
         }
     }
+
+
+        @PostMapping("update/{id}/{status}")
+        public ResponseEntity<Ticket> updateStatus(@PathVariable Long id,@PathVariable String status){
+            if (!ticketServices.isExists(id)) {
+                return ResponseEntity.status(500).body(null);
+            } else {
+
+                return ResponseEntity.ok(ticketServices.updateTicket(id,TicketStatus.valueOf(status)));
+            }
+        }
+
 
 }

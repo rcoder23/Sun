@@ -2,6 +2,7 @@ package com.sunbackend.Controllers;
 
 
 import com.sunbackend.Entities.User;
+import com.sunbackend.Helper.UserDto;
 import com.sunbackend.Services.AuthServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/auth")
+@CrossOrigin("*")
 public class UserAuth {
 
     @Autowired
@@ -23,6 +25,17 @@ public class UserAuth {
             return ResponseEntity.ok("User Saved Successfully");
         } else {
             return ResponseEntity.badRequest().body("Email is alredy registered..");
+        }
+    }
+
+    @PostMapping("/auth")
+    public ResponseEntity<User> authenticate(@RequestBody UserDto userDto){
+        User user= authServices.auth(userDto);
+        if(user!=null){
+//            return ResponseEntity.ok("login Sucess");
+            return ResponseEntity.ok(user);
+        }else{
+            return (ResponseEntity<User>) ResponseEntity.badRequest();
         }
     }
 

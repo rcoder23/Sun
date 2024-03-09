@@ -1,0 +1,78 @@
+.ticketColumn {
+  width: 200px;
+  height: 500px;
+  padding: 10px;
+  border: 1px solid #aaaaaa;
+  display: inline-table;
+  margin-left: 20px;
+}
+
+
+.progess {
+  background-color: #C9FFCA;
+}
+
+.ready {
+  background-color: #90cef8;
+}
+
+.progess {
+  background-color: #C7E9FF;
+}
+
+.review {
+  background-color: #FFF9C7;
+}
+
+.testing {
+  background-color: #E7D8FF;
+}
+
+.done {
+  background-color: #EAEAEA;
+}
+
+.ticket {
+  height: max-content;
+  /* height: 100px; */
+  width: 180px;
+  border-radius: 5px;
+  /* display: inline-table; */
+  /* padding-top: 20px; */
+  padding-left: 5px;
+  margin-top: 5px;
+}
+
+.ticket h2 {
+  /* background-color: red; */
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.ticket h3 {
+  /* background-color: yellow; */
+  text-transform: capitalize;
+  font-weight: 200;
+}
+
+.title {
+  font-weight: bold;
+  /* font-style: italic; */
+}
+
+.btn-viewmore {
+  margin-top: 10px;
+  margin-left: 20px;
+  background-color: lightblue;
+  height: 30px;
+  margin-bottom: 10px;
+  width: 100px;
+  color: black;
+  border-radius: 5px;
+
+}
+
+.btn-viewmore:hover {
+  background-color: blue;
+  color: white;
+}
