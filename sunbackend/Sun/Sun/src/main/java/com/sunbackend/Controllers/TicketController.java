@@ -6,6 +6,9 @@ import com.sunbackend.Helper.TicketStatus;
 import com.sunbackend.Services.TicketServices;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +23,7 @@ public class TicketController {
     private TicketServices ticketServices;
 
     @PostMapping("/create")
+    @CachePut(cacheNames = "tickets",key = "#ticket.id")
     public ResponseEntity<String> create(@RequestBody Ticket ticket) {
         try {
             if (ticketServices.create(ticket)) {
@@ -33,6 +37,7 @@ public class TicketController {
     }
 
     @PostMapping("/assign")
+    @CachePut(cacheNames = "assigned",key = "#ticketAssign.id")
     public ResponseEntity<String> setAsssignee(@RequestBody TicketAssign ticketAssign) {
         try {
             if (ticketServices.setAssign(ticketAssign)) {
@@ -46,6 +51,7 @@ public class TicketController {
     }
 
     @PostMapping("/unassign")
+    @CachePut(cacheNames = "assigned",key = "#ticketAssign.id")
     public ResponseEntity<String> unAssingee(@RequestBody TicketAssign ticketunAssign) {
         try {
             if (ticketServices.unAssign(ticketunAssign)) {
@@ -77,6 +83,7 @@ public class TicketController {
     }
 
     @GetMapping("/getById/{ticketId}")
+    @Cacheable(cacheNames = "tickets",key = "#ticketId")
     public ResponseEntity<Ticket> getById(@PathVariable Long ticketId) {
         if (!ticketServices.isExists(ticketId)) {
             return ResponseEntity.status(500).body(null);
@@ -86,6 +93,7 @@ public class TicketController {
     }
 
     @DeleteMapping("delete/{id}")
+    @CacheEvict(cacheNames = "tickets", key = "#id")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         if (ticketServices.deleteById(id)) {
             return ResponseEntity.ok("Deleted successfully");
@@ -96,6 +104,7 @@ public class TicketController {
 
 
         @PostMapping("update/{id}/{status}")
+        @CachePut(cacheNames = "tickets",key="#id")
         public ResponseEntity<Ticket> updateStatus(@PathVariable Long id,@PathVariable String status){
             if (!ticketServices.isExists(id)) {
                 return ResponseEntity.status(500).body(null);
@@ -103,6 +112,7 @@ public class TicketController {
 
                 return ResponseEntity.ok(ticketServices.updateTicket(id,TicketStatus.valueOf(status)));
             }
+
         }
 
 

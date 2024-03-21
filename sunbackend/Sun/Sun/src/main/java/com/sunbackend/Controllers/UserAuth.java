@@ -5,6 +5,8 @@ import com.sunbackend.Entities.User;
 import com.sunbackend.Helper.UserDto;
 import com.sunbackend.Services.AuthServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +22,7 @@ public class UserAuth {
     private AuthServices authServices;
 
     @PostMapping("/create")
+    @CachePut(cacheNames = "user",key = "#user.id")
     public ResponseEntity<String> createUser(@RequestBody User user) {
         if (authServices.save(user)) {
             return ResponseEntity.ok("User Saved Successfully");
@@ -40,6 +43,7 @@ public class UserAuth {
     }
 
     @GetMapping("/getuser/{userId}")
+    @Cacheable(cacheNames = "user",key = "#userId")
     public ResponseEntity<Optional<User>> getUserById(@PathVariable Long userId) {
         return ResponseEntity.ok(authServices.getUserById(userId));
     }
