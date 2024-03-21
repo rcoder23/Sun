@@ -16,7 +16,10 @@ public class AuthServices {
 
     @Autowired
     private AuthRepo authRepo;
-
+public int chandanTemp()
+{
+    return 1;
+}
     public boolean save(User user) {
         if (authRepo.findByEmail(user.getEmail()) == null) {
             if (user.getUserAssignTickets() == null) {
