@@ -16,10 +16,11 @@ public class AuthServices {
 
     @Autowired
     private AuthRepo authRepo;
-public int chandanTemp()
-{
-    return 1;
-}
+
+    public int chandanTemp() {
+        return 1;
+    }
+
     public boolean save(User user) {
         if (authRepo.findByEmail(user.getEmail()) == null) {
             if (user.getUserAssignTickets() == null) {
@@ -42,10 +43,10 @@ public int chandanTemp()
 
     public User auth(UserDto userDto) {
 
-        User user1= authRepo.findByEmail(userDto.getEmail());
-        if(user1!=null && user1.getPassword().equals(userDto.getPassword())){
+        User user1 = authRepo.findByEmail(userDto.getEmail());
+        if (user1 != null && user1.getPassword().equals(userDto.getPassword())) {
             return user1;
-        }else{
+        } else {
             return null;
         }
 //        return isFound;
