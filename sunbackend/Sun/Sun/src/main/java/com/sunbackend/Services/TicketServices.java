@@ -10,6 +10,7 @@ import com.sunbackend.Repository.TicketRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,7 @@ public class TicketServices {
     @Autowired
     private AuthRepo authRepo;
 
+    @Transactional
     //create new ticket
     public boolean create(Ticket ticket) {
         //checking assign is exists or not
@@ -32,17 +34,19 @@ public class TicketServices {
 
         ticketRepo.save(ticket);
         Optional<User> UserWhomTicketToAssign = authRepo.findById(ticket.getAssigneeId());
+
         if (UserWhomTicketToAssign.isPresent()) {
             User user = UserWhomTicketToAssign.get();
             List<Long> TicketAssignToUser = user.getUserAssignTickets();
             TicketAssignToUser.add(ticket.getId());
             user.setUserAssignTickets(TicketAssignToUser);
-            authRepo.save(user);
+            authRepo.saveAndFlush(user);
         }
         return true;
     }
 
 
+    @Transactional
     //assign ticket to user
     public boolean setAssign(TicketAssign ticketToAssign) {
         Optional<User> UserWhomTicketToAssign = authRepo.findById(ticketToAssign.getAssigneeId());
@@ -67,6 +71,7 @@ public class TicketServices {
         return false;
     }
 
+    @Transactional
     //unassign ticket to user
     public boolean unAssign(TicketAssign ticketunAssign) {
         Optional<User> UserWhomTicketToUnAssign = authRepo.findById(ticketunAssign.getAssigneeId());
@@ -90,6 +95,7 @@ public class TicketServices {
     }
 
 
+    @Transactional
     //checking the status of ticket
     public boolean checkStatus(Long id) {
         Optional<Ticket> ticket = ticketRepo.findById(id);
@@ -121,6 +127,7 @@ public class TicketServices {
         return null;
     }
 
+    @Transactional
     //delete ticket by id
     public boolean deleteById(Long id) {
         if (checkStatus(id)) {
@@ -138,6 +145,7 @@ public class TicketServices {
         }
     }
 
+    @Transactional
     public Ticket updateTicket(Long id, TicketStatus status) {
         Optional<Ticket> ticket = ticketRepo.findById(id);
         if (ticket.isPresent()) {

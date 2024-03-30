@@ -23,7 +23,7 @@ public class TicketController {
     private TicketServices ticketServices;
 
     @PostMapping("/create")
-    @CachePut(cacheNames = "tickets", key = "#ticket.id")
+    @CachePut(cacheNames = "tickets", key = "#ticket")
     public ResponseEntity<String> create(@RequestBody Ticket ticket) {
         try {
             if (ticketServices.create(ticket)) {
@@ -37,7 +37,6 @@ public class TicketController {
     }
 
     @PostMapping("/assign")
-    @CachePut(cacheNames = "assigned", key = "#ticketAssign.id")
     public ResponseEntity<String> setAsssignee(@RequestBody TicketAssign ticketAssign) {
         try {
             if (ticketServices.setAssign(ticketAssign)) {
@@ -51,7 +50,6 @@ public class TicketController {
     }
 
     @PostMapping("/unassign")
-    @CachePut(cacheNames = "assigned", key = "#ticketAssign.id")
     public ResponseEntity<String> unAssingee(@RequestBody TicketAssign ticketunAssign) {
         try {
             if (ticketServices.unAssign(ticketunAssign)) {

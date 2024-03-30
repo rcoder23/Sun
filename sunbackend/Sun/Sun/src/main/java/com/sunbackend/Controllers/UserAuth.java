@@ -20,7 +20,7 @@ public class UserAuth {
     private AuthServices authServices;
 
     @PostMapping("/create")
-    @CachePut(cacheNames = "user", key = "#user.id")
+    @CachePut(cacheNames = "user", key = "#user")
     public ResponseEntity<String> createUser(@RequestBody User user) {
         if (authServices.save(user)) {
             return ResponseEntity.ok("User Saved Successfully");

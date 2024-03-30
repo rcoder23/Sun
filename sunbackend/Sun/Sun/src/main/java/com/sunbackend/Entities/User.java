@@ -20,5 +20,7 @@ public class User {
     private String password;
     private String designation;
     private String role;
+
+    @Column(length = 1000)
     private List<Long> userAssignTickets; //id of tickets
 }

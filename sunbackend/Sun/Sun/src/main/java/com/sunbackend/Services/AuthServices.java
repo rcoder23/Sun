@@ -6,6 +6,7 @@ import com.sunbackend.Helper.UserDto;
 import com.sunbackend.Repository.AuthRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class AuthServices {
         return 1;
     }
 
+    @Transactional
     public boolean save(User user) {
         if (authRepo.findByEmail(user.getEmail()) == null) {
             if (user.getUserAssignTickets() == null) {
@@ -42,7 +44,6 @@ public class AuthServices {
     }
 
     public User auth(UserDto userDto) {
-
         User user1 = authRepo.findByEmail(userDto.getEmail());
         if (user1 != null && user1.getPassword().equals(userDto.getPassword())) {
             return user1;
