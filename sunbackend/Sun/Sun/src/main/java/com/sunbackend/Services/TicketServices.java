@@ -24,17 +24,17 @@ public class TicketServices {
     private AuthRepo authRepo;
 
     //create new ticket
-    public boolean create(Ticket ticket){
+    public boolean create(Ticket ticket) {
         //checking assign is exists or not
-        if(!authRepo.findById(ticket.getAssigneeId()).isPresent()) {
+        if (!authRepo.findById(ticket.getAssigneeId()).isPresent()) {
             return false;
         }
-        
+
         ticketRepo.save(ticket);
         Optional<User> UserWhomTicketToAssign = authRepo.findById(ticket.getAssigneeId());
-        if(UserWhomTicketToAssign.isPresent()){
-            User user=UserWhomTicketToAssign.get();
-            List<Long> TicketAssignToUser=user.getUserAssignTickets();
+        if (UserWhomTicketToAssign.isPresent()) {
+            User user = UserWhomTicketToAssign.get();
+            List<Long> TicketAssignToUser = user.getUserAssignTickets();
             TicketAssignToUser.add(ticket.getId());
             user.setUserAssignTickets(TicketAssignToUser);
             authRepo.save(user);
@@ -49,13 +49,13 @@ public class TicketServices {
         Optional<Ticket> ticket = ticketRepo.findById(ticketToAssign.getId());
 
         //checking ticket and user exists or not
-        if(UserWhomTicketToAssign.isPresent() && ticket.isPresent()){
+        if (UserWhomTicketToAssign.isPresent() && ticket.isPresent()) {
 
-            User user=UserWhomTicketToAssign.get();
-            List<Long> TicketAssignToUser=user.getUserAssignTickets();
+            User user = UserWhomTicketToAssign.get();
+            List<Long> TicketAssignToUser = user.getUserAssignTickets();
 
             //if ticket is already assigned to user or not
-            if(TicketAssignToUser.contains(ticketToAssign.getId())){
+            if (TicketAssignToUser.contains(ticketToAssign.getId())) {
                 return false;
             }
             TicketAssignToUser.add(ticketToAssign.getId());
@@ -68,17 +68,17 @@ public class TicketServices {
     }
 
     //unassign ticket to user
-    public boolean unAssign(TicketAssign ticketunAssign){
+    public boolean unAssign(TicketAssign ticketunAssign) {
         Optional<User> UserWhomTicketToUnAssign = authRepo.findById(ticketunAssign.getAssigneeId());
         Optional<Ticket> ticket = ticketRepo.findById(ticketunAssign.getId());
 
         //checking ticket and user exists or not
-        if(UserWhomTicketToUnAssign.isPresent() && ticket.isPresent()){
-            User user=UserWhomTicketToUnAssign.get();
-            List<Long> TicketAssignToUser=user.getUserAssignTickets();
+        if (UserWhomTicketToUnAssign.isPresent() && ticket.isPresent()) {
+            User user = UserWhomTicketToUnAssign.get();
+            List<Long> TicketAssignToUser = user.getUserAssignTickets();
 
             //checking it is alredy unassigned or not
-            if(!TicketAssignToUser.contains(ticketunAssign.getId())) return false;
+            if (!TicketAssignToUser.contains(ticketunAssign.getId())) return false;
             TicketAssignToUser.remove(ticketunAssign.getId()); //remove ticke id from user list
 
             authRepo.save(user);
@@ -91,15 +91,15 @@ public class TicketServices {
 
 
     //checking the status of ticket
-    public boolean checkStatus(Long id){
+    public boolean checkStatus(Long id) {
         Optional<Ticket> ticket = ticketRepo.findById(id);
-        if(ticket.isPresent()){
+        if (ticket.isPresent()) {
             System.out.println(ticket.get().getAssigneeId());
-            if(ticket.get().getAssigneeId()!=null) {
+            if (ticket.get().getAssigneeId() != null) {
                 return true; // assigned to some one
             }
         }
-        return false; //not assing to anyone;
+        return false;
     }
 
     //to check ticket exists or not
@@ -115,7 +115,7 @@ public class TicketServices {
     //to get ticket by id
     public ResponseEntity<Ticket> getById(Long ticketId) {
         Optional<Ticket> byId = ticketRepo.findById(ticketId);
-        if(byId.isPresent()){
+        if (byId.isPresent()) {
             return ResponseEntity.ok(byId.get());
         }
         return null;
@@ -123,17 +123,16 @@ public class TicketServices {
 
     //delete ticket by id
     public boolean deleteById(Long id) {
-        if(checkStatus(id)){
+        if (checkStatus(id)) {
             Optional<Ticket> byId = ticketRepo.findById(id);
-            if(byId.isPresent()){
-                if(unAssign(new TicketAssign(id, byId.get().getAssigneeId()))){
+            if (byId.isPresent()) {
+                if (unAssign(new TicketAssign(id, byId.get().getAssigneeId()))) {
                     ticketRepo.deleteById(id);
                     return true;
                 }
             }
             return false;
-        }else{
-            //not assigned to anyone
+        } else {
             ticketRepo.deleteById(id);
             return true;
         }
@@ -141,11 +140,11 @@ public class TicketServices {
 
     public Ticket updateTicket(Long id, TicketStatus status) {
         Optional<Ticket> ticket = ticketRepo.findById(id);
-        if(ticket.isPresent()){
+        if (ticket.isPresent()) {
             ticket.get().setStatus(status);
-             Ticket save = ticketRepo.save(ticket.get());
+            Ticket save = ticketRepo.save(ticket.get());
             return save;
-        }else{
+        } else {
             return null;
         }
     }

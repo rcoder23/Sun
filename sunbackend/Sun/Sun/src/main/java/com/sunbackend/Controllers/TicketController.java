@@ -23,7 +23,7 @@ public class TicketController {
     private TicketServices ticketServices;
 
     @PostMapping("/create")
-    @CachePut(cacheNames = "tickets",key = "#ticket.id")
+    @CachePut(cacheNames = "tickets", key = "#ticket.id")
     public ResponseEntity<String> create(@RequestBody Ticket ticket) {
         try {
             if (ticketServices.create(ticket)) {
@@ -37,7 +37,7 @@ public class TicketController {
     }
 
     @PostMapping("/assign")
-    @CachePut(cacheNames = "assigned",key = "#ticketAssign.id")
+    @CachePut(cacheNames = "assigned", key = "#ticketAssign.id")
     public ResponseEntity<String> setAsssignee(@RequestBody TicketAssign ticketAssign) {
         try {
             if (ticketServices.setAssign(ticketAssign)) {
@@ -51,7 +51,7 @@ public class TicketController {
     }
 
     @PostMapping("/unassign")
-    @CachePut(cacheNames = "assigned",key = "#ticketAssign.id")
+    @CachePut(cacheNames = "assigned", key = "#ticketAssign.id")
     public ResponseEntity<String> unAssingee(@RequestBody TicketAssign ticketunAssign) {
         try {
             if (ticketServices.unAssign(ticketunAssign)) {
@@ -76,14 +76,14 @@ public class TicketController {
         }
     }
 
-    @RateLimiter(name="TicketRateLimiter")
+    @RateLimiter(name = "TicketRateLimiter")
     @GetMapping("/getAll")
     public ResponseEntity<List<Ticket>> getAllTicket() {
         return ResponseEntity.ok(ticketServices.getAll());
     }
 
     @GetMapping("/getById/{ticketId}")
-    @Cacheable(cacheNames = "tickets",key = "#ticketId")
+    @Cacheable(cacheNames = "tickets", key = "#ticketId")
     public ResponseEntity<Ticket> getById(@PathVariable Long ticketId) {
         if (!ticketServices.isExists(ticketId)) {
             return ResponseEntity.status(500).body(null);
@@ -102,18 +102,17 @@ public class TicketController {
         }
     }
 
+    @PostMapping("update/{id}/{status}")
+    @CachePut(cacheNames = "tickets", key = "#id")
+    public ResponseEntity<Ticket> updateStatus(@PathVariable Long id, @PathVariable String status) {
+        if (!ticketServices.isExists(id)) {
+            return ResponseEntity.status(500).body(null);
+        } else {
 
-        @PostMapping("update/{id}/{status}")
-        @CachePut(cacheNames = "tickets",key="#id")
-        public ResponseEntity<Ticket> updateStatus(@PathVariable Long id,@PathVariable String status){
-            if (!ticketServices.isExists(id)) {
-                return ResponseEntity.status(500).body(null);
-            } else {
-
-                return ResponseEntity.ok(ticketServices.updateTicket(id,TicketStatus.valueOf(status)));
-            }
-
+            return ResponseEntity.ok(ticketServices.updateTicket(id, TicketStatus.valueOf(status)));
         }
+
+    }
 
 
 }

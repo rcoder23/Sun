@@ -11,8 +11,8 @@ public class TicketAssign {
     private Long assigneeId; // assign id whom ticket to assign
 
     public TicketAssign(Long id, Long assigneeId) {
-        this.id=id;
-        this.assigneeId=assigneeId;
+        this.id = id;
+        this.assigneeId = assigneeId;
     }
 
     public Long getId() {

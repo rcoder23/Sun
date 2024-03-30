@@ -1,6 +1,5 @@
 package com.sunbackend.Controllers;
 
-
 import com.sunbackend.Entities.User;
 import com.sunbackend.Helper.UserDto;
 import com.sunbackend.Services.AuthServices;
@@ -9,7 +8,6 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +20,7 @@ public class UserAuth {
     private AuthServices authServices;
 
     @PostMapping("/create")
-    @CachePut(cacheNames = "user",key = "#user.id")
+    @CachePut(cacheNames = "user", key = "#user.id")
     public ResponseEntity<String> createUser(@RequestBody User user) {
         if (authServices.save(user)) {
             return ResponseEntity.ok("User Saved Successfully");
@@ -32,18 +30,17 @@ public class UserAuth {
     }
 
     @PostMapping("/auth")
-    public ResponseEntity<User> authenticate(@RequestBody UserDto userDto){
-        User user= authServices.auth(userDto);
-        if(user!=null){
-//            return ResponseEntity.ok("login Sucess");
+    public ResponseEntity<User> authenticate(@RequestBody UserDto userDto) {
+        User user = authServices.auth(userDto);
+        if (user != null) {
             return ResponseEntity.ok(user);
-        }else{
+        } else {
             return (ResponseEntity<User>) ResponseEntity.badRequest();
         }
     }
 
     @GetMapping("/getuser/{userId}")
-    @Cacheable(cacheNames = "user",key = "#userId")
+    @Cacheable(cacheNames = "user", key = "#userId")
     public ResponseEntity<Optional<User>> getUserById(@PathVariable Long userId) {
         return ResponseEntity.ok(authServices.getUserById(userId));
     }

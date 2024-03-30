@@ -11,13 +11,4 @@ spring:
     hibernate:
       ddl-auto: update
 
-resilience4j:
-  ratelimiter:
-    configs:
-      default:
-        limitForPeriod: 4
-        limitRefreshPeriod: 5s
-        timeoutDuration: 4s
-    instances:
-      TicketRateLimiter:
-        baseConfig: default
+
